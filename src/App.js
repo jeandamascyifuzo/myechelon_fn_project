@@ -1,20 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
-import { decrement, decrementBy, increment, incrementByAmount } from "./redux/reducers/counter";
+import React from 'react';
+import Home from './pages/LandingPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DashRoute from './routes/DashRoute';
+import MainRoute from './routes/Routes'
+import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from './Utils/PrivateRoute';
+
 function App() {
-  const { count } = useSelector((state) => state.counter);
-  const dispatch = useDispatch();
   return (
-    <div className="justify-center items-center text-center pt-20">
-    <h1 className="mb-10"> The count is: {count}</h1>
-    <button className="p-2 bg-green-500 " onClick={() => dispatch(increment())}>increment</button>
-    <button className="p-2 mx-10 bg-red-500" onClick={() => dispatch(decrement())}>decrement</button>
-    <button className="p-2 bg-green-500" onClick={() => dispatch(incrementByAmount(33))}>
-      Increment by 33
-    </button>
-    <button className="p-2 mx-10 bg-green-500" onClick={() => dispatch(decrementBy(33))}>
-    decrement by 33
-    </button>
-  </div>
+    <Router>
+      <Routes>
+        <Route path="/" exact element={<Home />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard/*" element={<DashRoute />} />
+        </Route>
+        <Route path="/*" exact element={<MainRoute />} />
+      </Routes>
+    </Router>
   );
 }
 
